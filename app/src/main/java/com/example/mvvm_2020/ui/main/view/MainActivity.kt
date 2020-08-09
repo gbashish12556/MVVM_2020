@@ -41,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         setupObserver()
     }
 
+    private fun setupViewModel() {
+        mainViewModel = ViewModelProviders.of(this, ViewModelFactory()).get(MainViewModel::class.java)
+    }
+
     private fun setupUI() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = MainAdapter(arrayListOf())
@@ -58,7 +62,11 @@ class MainActivity : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     progressBar.visibility = View.GONE
-                    it.data?.let { users -> renderList(users) }
+                    var message = it.data?.let {
+                            renderList(it)
+                        "Hi my name is ashish"
+                    }
+                    Log.d("message",message)
                     recyclerView.visibility = View.VISIBLE
                 }
                 Status.LOADING -> {
@@ -77,13 +85,6 @@ class MainActivity : AppCompatActivity() {
     private fun renderList(users: List<User>) {
         adapter.addData(users)
         adapter.notifyDataSetChanged()
-    }
-//
-    private fun setupViewModel() {
-        mainViewModel = ViewModelProviders.of(
-            this,
-            ViewModelFactory()
-        ).get(MainViewModel::class.java)
     }
 
 }
